@@ -12,8 +12,7 @@ var con = mysql.createConnection({
    host: '184.168.112.45',
    user: 'asarwal',
    password: 'Baha@3022!!',
-   database: 'thoughtevolutiont',
+   database: 'building_management',
    multipleStatements: true
 });
-
 module.exports = con;
