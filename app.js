@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port  = 3000;
+const port = process.env.PORT || 3000; //80; -- Older Port For Server
 
 const topic = require('./routes/topic');
 const blog = require('./routes/blog');
