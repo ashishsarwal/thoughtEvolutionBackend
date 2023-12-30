@@ -133,6 +133,7 @@ router.post('/',(req,res) => {
 
                 });
             }
+            res.end();
         })
     })
 });
