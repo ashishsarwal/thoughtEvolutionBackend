@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const con  = require('../config/connection');
+const fs = require('fs');
+const { Buffer } = require('node:buffer');
 
 router.get('/', (req,res) => {
 
@@ -78,6 +80,13 @@ router.post('/',(req,res) => {
                                                                     ,current_date())`
                                                           ,function (err, result, fields) {
                                                             if (err) throw err;
+                                                            if(req.body.BlogImage != ''){
+                                                                con.query(`UPDATE blog
+                                                                           SET    blog.BlogImage = '${req.body.BlogImage}'
+                                                                           WHERE  blog.id = ${req.body.Id};`
+                                                                ,function (err, result, fields) {
+                                                                    if (err) throw err;});
+                                                            }
                                                           });
                                                     });
 
@@ -93,6 +102,7 @@ router.post('/',(req,res) => {
                                 Title,
                                 Description,
                                 Content,
+                                BlogImage,
                                 IsActive,
                                 CreatedBy,
                                 CreatedOn,
@@ -103,6 +113,7 @@ router.post('/',(req,res) => {
                                 '${req.body.Title}',
                                 '${req.body.Description}',
                                 '${req.body.Content}',
+                                '${req.body.BlogImage}',
                                 ${req.body.IsActive},
                                 NULL,
                                 current_date(),
@@ -133,6 +144,16 @@ router.post('/',(req,res) => {
 
                 });
             }
+            let base64 = req.body.BlogImage.split(",")[1];
+            let buffer = Buffer.from(base64, 'base64');
+            fs.writeFile(`public/images/blog-${req.body.Id}.png`,buffer,(err)=>{
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log('image written on location.....');
+                }
+            });
             res.end();
         })
     })
