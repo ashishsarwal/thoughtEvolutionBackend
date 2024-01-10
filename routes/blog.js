@@ -80,7 +80,7 @@ router.post('/',(req,res) => {
                                                                     ,current_date())`
                                                           ,function (err, result, fields) {
                                                             if (err) throw err;
-                                                            if(req.body.BlogImage != ''){
+                                                            if(req.body.BlogImage){
                                                                 con.query(`UPDATE blog
                                                                            SET    blog.BlogImage = '${req.body.BlogImage}'
                                                                            WHERE  blog.id = ${req.body.Id};`
@@ -144,16 +144,19 @@ router.post('/',(req,res) => {
 
                 });
             }
-            let base64 = req.body.BlogImage.split(",")[1];
-            let buffer = Buffer.from(base64, 'base64');
-            fs.writeFile(`public/images/blog-${req.body.Id}.png`,buffer,(err)=>{
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    console.log('image written on location.....');
-                }
-            });
+            //Save image in file path if image is present
+            if(req.body.BlogImage){
+                let base64 = req.body.BlogImage.split(",")[1];
+                let buffer = Buffer.from(base64, 'base64');
+                fs.writeFile(`public/images/blog-${req.body.Id}.png`,buffer,(err)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        console.log('image written on location.....');
+                    }
+                });
+            }
             res.end();
         })
     })
