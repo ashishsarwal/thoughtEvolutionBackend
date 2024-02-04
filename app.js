@@ -8,6 +8,7 @@ const topic = require('./routes/topic');
 const blog = require('./routes/blog');
 const topic_blog = require('./routes/topic_blog');
 const blogs_by_topic = require('./routes/blogs_by_topic');
+const test = require('./routes/test');
 
 // Express 4.0
 app.use(bodyParser.json({ limit: '10mb' }));
@@ -36,10 +37,11 @@ app.use(function (req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
-app.use('/topic', topic);
-app.use('/blog', blog);
-app.use('/topic_blog', topic_blog);
-app.use('/blogs_by_topic',blogs_by_topic);
+app.use('/thought-evolution-api/topic', topic);
+app.use('/thought-evolution-api/blog', blog);
+app.use('/thought-evolution-api/topic_blog', topic_blog);
+app.use('/thought-evolution-api/blogs_by_topic',blogs_by_topic);
+app.use('/thought-evolution-api/test',test);
 
 app.listen(port, ()=>{
     console.log('listening on port 3000...');

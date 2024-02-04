@@ -5,10 +5,10 @@ const con  = require('../config/connection');
 
 router.get('/:id', (req,res) => {
 
-    con.connect(function(err){
+    pool.getConnection(function(err){
         if(err) console.log(err); 
         //console.log('Connected...');
-        con.query(`SELECT 	  topic.*
+        pool.query(`SELECT 	  topic.*
                   ,		  CASE WHEN topic_blog.BlogId IS NOT NULL THEN TRUE ELSE FALSE END AS IsSelected
                   FROM      topic
                   LEFT JOIN topic_blog ON topic.id = topic_blog.TopicId

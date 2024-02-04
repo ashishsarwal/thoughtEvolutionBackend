@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const con  = require('../config/connection');
+const pool  = require('../config/connection');
 
 router.get('/', (req,res) => {
 
-    con.connect(function(err){
+    pool.getConnection(function(err){
         if(err) console.log(err); 
         //console.log('Connected...');
-        con.query(`select blog.*
+        pool.query(`select blog.*
         ,	      topic_blog.topicId
         from	  blog
         inner join topic_blog on blog.id = topic_blog.blogid
@@ -23,10 +23,10 @@ router.get('/', (req,res) => {
 
 router.get('/:id', (req,res) => {
 
-    con.connect(function(err){
+    pool.getConnection(function(err){
         if(err) console.log(err); 
         //console.log('Connected...');
-        con.query(`select blog.Id
+        pool.query(`select blog.Id
         ,         blog.Title
         ,         blog.Description
         ,         blog.BlogImage
