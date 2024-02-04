@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const con  = require('../config/connection');
+const pool  = require('../config/connection');
 
 router.get('/', (req,res) => {
 
