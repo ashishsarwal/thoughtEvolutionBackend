@@ -64,8 +64,9 @@ router.post('/',(req,res) => {
                                                           ,function (err, result, fields) {
                                                             if (err) throw err;
                                                             if(req.body.BlogImage){
+                                                                //REMOVE UPDATE CODE...
                                                                 pool.query(`UPDATE blog
-                                                                           SET    blog.BlogImage = '${req.body.BlogImage}'
+                                                                           SET    blog.BlogImage = ''
                                                                            WHERE  blog.id = ${req.body.Id};`
                                                                 ,function (err, result, fields) {
                                                                     if (err) throw err;});
@@ -92,7 +93,7 @@ router.post('/',(req,res) => {
                             '${req.body.Title}',
                             '${req.body.Description}',
                             '${req.body.Content}',
-                            '${req.body.BlogImage}',
+                            '',
                             ${req.body.IsActive},
                             NULL,
                             current_date(),

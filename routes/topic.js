@@ -37,6 +37,7 @@ router.post('/',(req,res) => {
                     pool.query(`UPDATE topic
                                SET    topic.name = '${req.body.Name}'
                                ,      topic.description = '${req.body.Description}'
+                               ,      topic.quote = '${req.body.Quote}'
                                ,      topic.isActive = ${req.body.IsActive}
                                ,      topic.updatedBy = NULL
                                ,      topic.updatedOn = current_date()
@@ -53,6 +54,7 @@ router.post('/',(req,res) => {
                                 (Id,
                                 Name,
                                 Description,
+                                Quote,
                                 IsActive,
                                 CreatedBy,
                                 CreatedOn,
@@ -62,6 +64,7 @@ router.post('/',(req,res) => {
                                 (NULL,
                                 '${req.body.Name}',
                                 '${req.body.Description}',
+                                '${req.body.Quote}',
                                 ${req.body.IsActive},
                                 NULL,
                                 current_date(),
