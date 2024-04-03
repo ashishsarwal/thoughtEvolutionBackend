@@ -6,7 +6,8 @@ const { Buffer } = require('node:buffer');
 
 router.get('/', (req,res) => {
     pool.query(`select *
-                from blog;`
+                from blog
+                order by blog.UpdatedOn desc;`
     , function (err, result, fields) {
             if (err) throw err;
             res.send(result);

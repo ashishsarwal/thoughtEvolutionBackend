@@ -6,7 +6,19 @@ const { Buffer } = require('node:buffer');
 
 router.get('/', (req,res) => {
     pool.query(`select *
-                from banner;`
+                from banner
+                order by banner.UpdatedOn desc;`
+    , function (err, result, fields) {
+            if (err) throw err;
+            res.send(result);
+            res.end();
+    });
+});
+
+router.get('/active', (req,res) => {
+    pool.query(`select *
+                from   banner
+                where  banner.isactive = 1;`
     , function (err, result, fields) {
             if (err) throw err;
             res.send(result);

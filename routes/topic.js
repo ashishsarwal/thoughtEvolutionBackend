@@ -2,11 +2,39 @@
 const express = require('express');
 const router = express.Router();
 const pool  = require('../config/connection');
+const fs = require('fs');
+const { Buffer } = require('node:buffer');
 
 router.get('/', (req,res) => {
 
         pool.query(`select *
-                   from topic;`
+                   from topic
+                   order by topic.UpdatedOn desc;`
+    , function (err, result, fields) {
+            if (err) throw err;
+            res.send(result);
+            res.end();
+          });
+});
+
+router.get('/active', (req,res) => {
+
+        pool.query(`select *
+                   from    topic
+                   where   topic.isactive = 1;`
+    , function (err, result, fields) {
+            if (err) throw err;
+            res.send(result);
+            res.end();
+          });
+});
+
+router.get('/top-5', (req,res) => {
+
+        pool.query(`select *
+                   from    topic
+                   where   topic.isactive = 1
+                   limit   5;`
     , function (err, result, fields) {
             if (err) throw err;
             res.send(result);
@@ -45,8 +73,6 @@ router.post('/',(req,res) => {
                                
                 , function (err, result, fields) {
                         if (err) throw err;
-                        res.status(200).send('Topic created succesfully!');
-                        res.end();
                         });
             }
             else{
@@ -72,11 +98,26 @@ router.post('/',(req,res) => {
                                 current_date());`
                 , function (err, result, fields) {
                         if (err) throw err;
-                        res.status(200).send('Topic created succesfully!');
-                        res.end();
                         });
+        }
+        //Save image in file path if image is present
+        console.log('starting image processing...');
+        if(req.body.topicImage){
+                console.log('processing image...');
+                let base64 = req.body.topicImage.split(",")[1];
+                let buffer = Buffer.from(base64, 'base64');
+                fs.writeFile(`public/images/topic-${req.body.Id}.png`,buffer,(err)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        console.log('image written on location.....');
+                    }
+                });
             }
+            res.end();
         })
-    });
+});
+   
     
 module.exports = router;

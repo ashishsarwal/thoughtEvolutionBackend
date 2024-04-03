@@ -28,7 +28,8 @@ router.get('/:id', (req,res) => {
                             and blog.IsActive = 1
     inner join topic on topic.id = topic_blog.topicid
                     and topic.IsActive = 1
-    where     topic_blog.topicId = ${req.params.id};`
+    where     topic_blog.topicId = ${req.params.id}
+    order by  blog.UpdatedOn desc;`
     , function (err, result, fields) {
             if (err) throw err;
             res.send(result);
@@ -48,6 +49,7 @@ router.get('/top/:id', (req,res) => {
     inner join topic on topic.id = topic_blog.topicid
                     and topic.IsActive = 1
     where     topic_blog.topicId = ${req.params.id}
+    order by  blog.UpdatedOn desc
     limit     5;`
     , function (err, result, fields) {
             if (err) throw err;
